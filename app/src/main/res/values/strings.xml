@@ -11,4 +11,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">App name</string>
     <string name="network_error">No network connection</string>
+    <string name="season_placeholder">Season</string>
 </resources>

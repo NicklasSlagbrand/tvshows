@@ -1,13 +1,10 @@
 package com.nicklasslagbrand.tvshow
 
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.os.Build
-import com.nicklasslagbrand.tvshow.core.di.*
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import net.danlew.android.joda.JodaTimeAndroid
+import com.nicklasslagbrand.tvshow.core.di.androidPlatformModule
+import com.nicklasslagbrand.tvshow.core.di.generalAppModule
+import com.nicklasslagbrand.tvshow.core.di.useCaseModule
+import com.nicklasslagbrand.tvshow.core.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -22,7 +19,6 @@ class AndroidApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        JodaTimeAndroid.init(this)
         setupKoin()
     }
 

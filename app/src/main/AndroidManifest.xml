@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
         <activity
-            android:name="com.nicklasslagbrand.tvshow.feature.repo.ReposActivity"
+            android:name="com.nicklasslagbrand.tvshow.feature.tvshow.TvShowActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteBackground" >

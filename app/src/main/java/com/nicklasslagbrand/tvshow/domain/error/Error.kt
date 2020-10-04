@@ -6,6 +6,4 @@ sealed class Error {
             return "GeneralError(exception=$exception)"
         }
     }
-
-    object MissingNetworkConnection : Error()
 }

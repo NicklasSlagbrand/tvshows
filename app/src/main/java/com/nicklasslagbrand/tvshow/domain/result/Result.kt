@@ -1,10 +1,8 @@
 package com.nicklasslagbrand.tvshow.domain.result
 
 import com.nicklasslagbrand.tvshow.domain.error.Error
-import com.nicklasslagbrand.tvshow.domain.error.ReadingAssetFileException
 import com.nicklasslagbrand.tvshow.domain.result.Result.Failure
 import com.nicklasslagbrand.tvshow.domain.result.Result.Success
-import java.net.UnknownHostException
 
 /**
  * Represents a value of one of two possible types
@@ -59,14 +57,6 @@ inline fun <T> wrapResult(block: () -> T): Result<T, Error> {
     return try {
         Result.success(
             block()
-        )
-    } catch (exception: ReadingAssetFileException) {
-        Result.failure(
-            Error.MissingNetworkConnection
-        )
-    } catch (exception: UnknownHostException) {
-        Result.failure(
-            Error.MissingNetworkConnection
         )
     } catch (exception: Exception) {
         Result.failure(

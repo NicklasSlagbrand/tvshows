@@ -3,16 +3,12 @@ import org.codehaus.groovy.runtime.ProcessGroovyMethods
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-val appVersionCode = System.getenv("BITRISE_BUILD_NUMBER")?.toInt() ?: 1
-val appVersionName = "1.0.0"
-
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
     id("gnag")
-    id("realm-android")
 }
 
 androidExtensions {
@@ -32,8 +28,8 @@ android {
 
         multiDexEnabled = true
 
-        versionCode = appVersionCode
-        versionName = appVersionName
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -51,19 +47,9 @@ android {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
         }
-        getByName("debug") {
-            storeFile = file("./keys/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
     }
 
     buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
         getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = true
@@ -72,21 +58,6 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "$project.rootDir/tools/proguard-rules-debug.pro"
-            )
-        }
-    }
-
-    flavorDimensions("main")
-
-    productFlavors {
-        create("dev") {
-            setDimension("main")
-            versionNameSuffix = ".dev"
-
-            buildConfigField(
-                "String",
-                "API_BASE_URL",
-                "\"https://api.github.com\""
             )
         }
     }
@@ -106,7 +77,6 @@ dependencies {
     implementation("com.google.android.material:material:1.1.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
     implementation("com.github.blackbeared:fusion:1.0.3")
-    implementation ("androidx.preference:preference-ktx:1.1.1")
 
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleVersion")
@@ -127,61 +97,13 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-    // Kotlin
-    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    implementation ("android.arch.paging:runtime:1.0.1")
     implementation ("android.arch.lifecycle:extensions:1.1.1")
-
-
-
-    testImplementation("junit:junit:4.13")
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.4.1")
-    testImplementation("org.koin:koin-test:$koinVersion")
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("org.amshove.kluent:kluent-android:1.60")
-    testImplementation("android.arch.core:core-testing:1.1.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-
-    androidTestImplementation("org.hamcrest:hamcrest-library:2.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
-    androidTestImplementation("androidx.test:rules:1.2.0")
-    androidTestImplementation("androidx.test:runner:1.2.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.1")
 
     ktlint("com.pinterest:ktlint:${rootProject.extra.get("ktlint")}")
 }
 
 tasks {
-    register<GradleBuild>("performCheckAndQuickBuild") {
-        group = "Build"
-        description =
-            "Runs Unit tests and build DEBUG app variant (For that reason it builds fast)."
-        tasks = listOf("clean", "updateLoco", "gnagCheck", "build")
-    }
-
-    register<GradleBuild>("performCheckAndFullBuild") {
-        group = "Build"
-        description = "Runs Unit tests and build full app with all variants."
-        tasks = listOf("clean", "updateLoco", "gnagReport", "build")
-    }
-
-
-// if the build was triggered by the pull request then performs full build otherwise runs quick
-// build
-    register<GradleBuild>("performBuild") {
-        description = "This build is designed to be triggered from CI"
-        group = "Build"
-        tasks = if (System.getenv("BITRISE_PULL_REQUEST") != null) {
-            println("Building the app for the PR")
-            listOf("performCheckAndFullBuild")
-        } else {
-            println("Building the app for the commit")
-            listOf("performCheckAndQuickBuild")
-        }
-    }
-
     register<JavaExec>("ktlint") {
         group = "verification"
         description = "Check Kotlin code style."
@@ -198,15 +120,6 @@ tasks {
         classpath = ktlint
         main = "com.pinterest.ktlint.Main"
         args = listOf("-F", "src/**/*.kt")
-    }
-}
-tasks.register<GradleBuild>("setVersionNameIntoEnv") {
-    group = "CI related"
-    description =
-        "Creates env variable 'APP_VERSION_NAME' and sets its value to Application version limit. Should be run only on Bitrise CI."
-
-    doFirst {
-        println("Setting version limit env variable: "+"envman add --key APP_VERSION_NAME --value $appVersionName.$appVersionCode".exec())
     }
 }
 

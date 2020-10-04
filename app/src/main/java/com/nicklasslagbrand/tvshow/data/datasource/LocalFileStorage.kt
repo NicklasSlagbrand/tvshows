@@ -7,9 +7,9 @@ import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.StandardCharsets.UTF_8
 
-class LocalFileStorage (
+class LocalFileStorage(
     private val context: Context
-){
+) {
     fun getTvShow(): String {
         val jsonString: String
         jsonString = try {
@@ -23,13 +23,13 @@ class LocalFileStorage (
             e.printStackTrace()
             throw ReadingAssetFileException()
         }
-        when  {
+        when {
             jsonString.isBlank() -> throw EmptyFileException()
         }
         return jsonString
     }
 
-    companion object{
+    companion object {
         private val FILENAME_ASSET_API = "hbo-silicon-valley.json"
     }
 }

@@ -1,31 +1,28 @@
 package com.nicklasslagbrand.tvshow.core.di
 
 import com.nicklasslagbrand.tvshow.data.datasource.LocalFileStorage
-import com.nicklasslagbrand.tvshow.data.time.AndroidTimeHandler
-import com.nicklasslagbrand.tvshow.domain.TimeHandler
-import com.nicklasslagbrand.tvshow.domain.repository.GithubRepository
-import com.nicklasslagbrand.tvshow.domain.usecase.GetRepoListUseCase
-import com.nicklasslagbrand.tvshow.feature.repo.ReposViewModel
+import com.nicklasslagbrand.tvshow.domain.repository.TvShowRepository
+import com.nicklasslagbrand.tvshow.domain.usecase.GetTvShowUseCase
+import com.nicklasslagbrand.tvshow.feature.tvshow.TvShowViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val androidPlatformModule = module {
-    single { AndroidTimeHandler() as TimeHandler }
     single { Dispatchers.IO }
 }
 
 val generalAppModule = module {
     single { LocalFileStorage(get()) }
-    single { GithubRepository(get()) }
+    single { TvShowRepository(get()) }
 }
 
 val useCaseModule = module {
     factory {
-        GetRepoListUseCase(get())
+        GetTvShowUseCase(get())
     }
 }
 
 val viewModelModule = module {
-    viewModel { ReposViewModel(get(), get()) }
+    viewModel { TvShowViewModel(get(), get()) }
 }
