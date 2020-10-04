@@ -1,15 +1,8 @@
 
-Android Kotlin Baseline MVVM
+Description
 ==================================
 
-The goal of this project is to act as a template for other projects
-
-Useful links
------------------
-
-[Architecting Android](http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/), [Architecting Android...The evolution](https://fernandocejas.com/2015/07/18/architecting-android-the-evolution/), [Architecting Android...Reloaded](https://fernandocejas.com/2018/05/07/architecting-android-reloaded/)
-
-The development process follows [GitFlow workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+Simple app dipslaying list of episodes of from a local json file.
 
 Development
 -----------------
