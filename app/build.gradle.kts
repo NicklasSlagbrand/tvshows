@@ -21,7 +21,7 @@ android {
     compileSdkVersion(29)
 
     defaultConfig {
-        applicationId = "com.nicklasslagbrand.baseline"
+        applicationId = "com.nicklasslagbrand.tvshow"
 
         minSdkVersion(21)
         targetSdkVersion(29)
