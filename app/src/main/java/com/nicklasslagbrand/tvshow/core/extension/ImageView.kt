@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
-fun ImageView.loadImageWithFitCenterTransform(
+fun ImageView.loadImageWithCenterCropTransform(
     url: String,
     vararg transformations: RequestOptions
 ) =
@@ -16,6 +16,6 @@ fun ImageView.loadImageWithFitCenterTransform(
                 apply(transformation)
             }
         }
-        .fitCenter()
+        .centerCrop()
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(this)

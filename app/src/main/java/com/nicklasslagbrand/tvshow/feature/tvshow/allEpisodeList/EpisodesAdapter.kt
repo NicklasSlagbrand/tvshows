@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nicklasslagbrand.tvshow.R
-import com.nicklasslagbrand.tvshow.core.extension.loadImageWithFitCenterTransform
+import com.nicklasslagbrand.tvshow.core.extension.loadImageWithCenterCropTransform
 import com.nicklasslagbrand.tvshow.domain.model.TvShowEpisodesModel
 import kotlin.properties.Delegates
 import kotlinx.android.synthetic.main.item_episode.view.*
@@ -43,7 +43,7 @@ class EpisodesAdapter(
             view.tvSeason.text = "${context.getString(R.string.season_placeholder)} " +
                     "${tvshow.season}"
 
-            view.ivPoster.loadImageWithFitCenterTransform(
+            view.ivPoster.loadImageWithCenterCropTransform(
                 tvshow.imageUrl ?: "")
         }
     }
