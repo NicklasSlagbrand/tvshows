@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.nicklasslagbrand.tvshow.data.viewmodel.ConsumableEvent
+import com.nicklasslagbrand.tvshow.core.viewmodel.ConsumableEvent
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T) -> Unit) =
     liveData.observe(this, NonNullObserver(body))

@@ -2,7 +2,7 @@ package com.nicklasslagbrand.tvshow.testutils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.nicklasslagbrand.tvshow.data.viewmodel.ConsumableEvent
+import com.nicklasslagbrand.tvshow.core.viewmodel.ConsumableEvent
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainSame
 

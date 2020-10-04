@@ -1,7 +1,7 @@
 package com.nicklasslagbrand.tvshow.data.network
 
 import com.nicklasslagbrand.tvshow.core.extension.empty
-import com.nicklasslagbrand.tvshow.domain.error.NoNetworkConnectionException
+import com.nicklasslagbrand.tvshow.domain.error.ReadingAssetFileException
 import com.nicklasslagbrand.tvshow.testutils.TestNetworkConnectionChecker
 import io.mockk.every
 import io.mockk.mockk
@@ -26,7 +26,7 @@ class NetworkConnectionInterceptorTest {
         }
 
         throwingFunction
-            .shouldThrow(NoNetworkConnectionException::class)
+            .shouldThrow(ReadingAssetFileException::class)
             .withMessage(String.empty())
     }
 

@@ -4,9 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import com.nicklasslagbrand.tvshow.core.di.androidPlatformModule
-import com.nicklasslagbrand.tvshow.core.di.generalAppModule
-import com.nicklasslagbrand.tvshow.core.di.useCaseAndViewModelModule
+import com.nicklasslagbrand.tvshow.core.di.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import net.danlew.android.joda.JodaTimeAndroid
@@ -25,22 +23,7 @@ class AndroidApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
         JodaTimeAndroid.init(this)
-
-        setupRealm()
-
         setupKoin()
-
-        createAppNotificationChannel()
-    }
-
-    private fun setupRealm() {
-        Realm.init(this)
-        Realm.setDefaultConfiguration(
-            RealmConfiguration.Builder()
-                .name("baseline.realm")
-                .deleteRealmIfMigrationNeeded()
-                .build()
-        )
     }
 
     private fun setupKoin() {
@@ -50,28 +33,12 @@ class AndroidApp : Application() {
 
             modules(
                 listOf(
-                    androidPlatformModule(),
-                    generalAppModule(
-                        baseUrl = BuildConfig.API_BASE_URL,
-                        networkLogging = true
-                    ),
-                    useCaseAndViewModelModule()
+                    androidPlatformModule,
+                    generalAppModule,
+                    useCaseModule,
+                    viewModelModule
                 )
             )
-        }
-    }
-
-    private fun createAppNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
-                NotificationChannel(
-                    Constants.DEFAULT_NOTIFICATION_CHANNEL,
-                    getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_HIGH
-                )
-
-            getSystemService(NotificationManager::class.java)
-                .createNotificationChannel(channel)
         }
     }
 }

@@ -1,30 +1,40 @@
 package com.nicklasslagbrand.tvshow.feature.repo
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.navigation.findNavController
+
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nicklasslagbrand.tvshow.R
+import com.nicklasslagbrand.tvshow.core.extension.observeEvents
 import com.nicklasslagbrand.tvshow.feature.base.BaseActivity
+import kotlinx.android.synthetic.main.fragment_repo_list.*
+import timber.log.Timber
+import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class ReposActivity : BaseActivity() {
-    override fun provideLayoutId() = R.layout.activity_main
+    private val viewModel: ReposViewModel by viewModel()
+
+    override fun provideLayoutId() = R.layout.fragment_repo_list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initViews()
+        subscribeToLiveData()
+        initializeList()
     }
 
-    private fun initViews() {
-        findNavController(R.id.nav_host_fragment_container)
-            .navigate(R.id.action_fragmentRepoHost_to_reposListFragment2)
+    private fun initializeList() {
+        viewModel.getReposList()
+        rvRepos.layoutManager = LinearLayoutManager(this)
     }
 
-    companion object {
-        fun startActivity(context: Context) {
-            context.startActivity(
-                Intent(context, ReposActivity::class.java)
-            )
+    private fun subscribeToLiveData() {
+        observeEvents(viewModel.eventsLiveData) {
+            when (it) {
+                is ReposViewModel.Event.ShowList -> {
+                    Timber.d("RESULT: ${it.json}")
+                }
+            }
         }
+        observeEvents(viewModel.failure, ::handleFailure)
     }
 }

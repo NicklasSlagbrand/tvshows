@@ -1,4 +1,4 @@
-package com.nicklasslagbrand.tvshow.data.viewmodel
+package com.nicklasslagbrand.tvshow.core.viewmodel
 
 import androidx.lifecycle.LiveData
 

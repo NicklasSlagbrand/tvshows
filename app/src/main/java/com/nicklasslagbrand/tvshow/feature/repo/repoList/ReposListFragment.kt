@@ -2,19 +2,16 @@ package com.nicklasslagbrand.tvshow.feature.repo.repoList
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nicklasslagbrand.tvshow.R
-import com.nicklasslagbrand.tvshow.core.extension.observe
 import com.nicklasslagbrand.tvshow.core.extension.observeEvents
 import com.nicklasslagbrand.tvshow.feature.base.BaseFragment
 import com.nicklasslagbrand.tvshow.feature.repo.ReposViewModel
 import kotlinx.android.synthetic.main.fragment_repo_list.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class ReposListFragment : BaseFragment() {
-    private val reposAdapter: ReposAdapter = ReposAdapter()
-
     private val viewModel: ReposViewModel by sharedViewModel()
     override fun provideLayoutId(): Int? = R.layout.fragment_repo_list
 
@@ -25,29 +22,18 @@ class ReposListFragment : BaseFragment() {
         initializeList()
     }
     private fun initializeList() {
+        viewModel.getReposList()
         rvRepos.layoutManager = LinearLayoutManager(requireContext())
-        rvRepos.adapter = reposAdapter.apply {
-            clickListener = {
-                viewModel.itemClicked(it)
-            }
-        }
     }
 
     private fun subscribeToLiveData() {
-        observe(viewModel.getReposList()) {
-            reposAdapter.submitList(it)
-        }
-
         observeEvents(viewModel.eventsLiveData) {
             when (it) {
-                is ReposViewModel.Event.ShowRepoDetails -> navigateToDetails()
+                is ReposViewModel.Event.ShowList -> {
+                    Timber.d("RESULT: ${it.json}")
+                }
             }
         }
         observeEvents(viewModel.failure, ::handleFailure)
-    }
-
-    private fun navigateToDetails() {
-        findNavController().navigate(
-            R.id.action_reposListFragment_to_repoDetailsFragment)
     }
 }

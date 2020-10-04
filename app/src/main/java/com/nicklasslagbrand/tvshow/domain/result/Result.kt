@@ -1,7 +1,7 @@
 package com.nicklasslagbrand.tvshow.domain.result
 
 import com.nicklasslagbrand.tvshow.domain.error.Error
-import com.nicklasslagbrand.tvshow.domain.error.NoNetworkConnectionException
+import com.nicklasslagbrand.tvshow.domain.error.ReadingAssetFileException
 import com.nicklasslagbrand.tvshow.domain.result.Result.Failure
 import com.nicklasslagbrand.tvshow.domain.result.Result.Success
 import java.net.UnknownHostException
@@ -60,7 +60,7 @@ inline fun <T> wrapResult(block: () -> T): Result<T, Error> {
         Result.success(
             block()
         )
-    } catch (exception: NoNetworkConnectionException) {
+    } catch (exception: ReadingAssetFileException) {
         Result.failure(
             Error.MissingNetworkConnection
         )

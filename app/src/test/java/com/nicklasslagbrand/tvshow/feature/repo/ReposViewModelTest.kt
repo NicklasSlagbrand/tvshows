@@ -3,7 +3,7 @@ package com.nicklasslagbrand.tvshow.feature.repo
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import com.nicklasslagbrand.tvshow.data.viewmodel.ConsumableEvent
+import com.nicklasslagbrand.tvshow.core.viewmodel.ConsumableEvent
 import com.nicklasslagbrand.tvshow.domain.error.Error
 import com.nicklasslagbrand.tvshow.domain.model.GithubRepo
 import com.nicklasslagbrand.tvshow.domain.result.Result

@@ -6,9 +6,9 @@ import com.nicklasslagbrand.tvshow.domain.repository.GithubRepository
 import com.nicklasslagbrand.tvshow.domain.result.Result
 
 class GetRepoListUseCase(private val repository: GithubRepository) :
-    UseCase<List<GithubRepo>, PagingParams>() {
-    override suspend fun call(params: PagingParams): Result<List<GithubRepo>, Error> =
-        repository.getAndroidRepos(params.page)
+    UseCase<String, UseCase.None>() {
+    override suspend fun call(params: None): Result<String, Error> =
+        repository.getTvShows()
 }
 
 data class PagingParams(
